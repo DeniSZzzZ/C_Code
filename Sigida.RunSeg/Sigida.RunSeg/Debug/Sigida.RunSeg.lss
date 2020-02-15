@@ -1,0 +1,207 @@
+
+Sigida.RunSeg.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000e2  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000e  00800060  000000e2  00000156  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000164  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000194  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  000001d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000642  00000000  00000000  000001f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000004e1  00000000  00000000  00000836  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000028b  00000000  00000000  00000d17  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000034  00000000  00000000  00000fa4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000309  00000000  00000000  00000fd8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000018b  00000000  00000000  000012e1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000010  00000000  00000000  0000146c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	22 c0       	rjmp	.+68     	; 0x48 <__bad_interrupt>
+   4:	21 c0       	rjmp	.+66     	; 0x48 <__bad_interrupt>
+   6:	20 c0       	rjmp	.+64     	; 0x48 <__bad_interrupt>
+   8:	1f c0       	rjmp	.+62     	; 0x48 <__bad_interrupt>
+   a:	1e c0       	rjmp	.+60     	; 0x48 <__bad_interrupt>
+   c:	1d c0       	rjmp	.+58     	; 0x48 <__bad_interrupt>
+   e:	1c c0       	rjmp	.+56     	; 0x48 <__bad_interrupt>
+  10:	1b c0       	rjmp	.+54     	; 0x48 <__bad_interrupt>
+  12:	1a c0       	rjmp	.+52     	; 0x48 <__bad_interrupt>
+  14:	19 c0       	rjmp	.+50     	; 0x48 <__bad_interrupt>
+  16:	18 c0       	rjmp	.+48     	; 0x48 <__bad_interrupt>
+  18:	17 c0       	rjmp	.+46     	; 0x48 <__bad_interrupt>
+  1a:	16 c0       	rjmp	.+44     	; 0x48 <__bad_interrupt>
+  1c:	15 c0       	rjmp	.+42     	; 0x48 <__bad_interrupt>
+  1e:	14 c0       	rjmp	.+40     	; 0x48 <__bad_interrupt>
+  20:	13 c0       	rjmp	.+38     	; 0x48 <__bad_interrupt>
+  22:	12 c0       	rjmp	.+36     	; 0x48 <__bad_interrupt>
+  24:	11 c0       	rjmp	.+34     	; 0x48 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf ed       	ldi	r28, 0xDF	; 223
+  2c:	cd bf       	out	0x3d, r28	; 61
+
+0000002e <__do_copy_data>:
+  2e:	10 e0       	ldi	r17, 0x00	; 0
+  30:	a0 e6       	ldi	r26, 0x60	; 96
+  32:	b0 e0       	ldi	r27, 0x00	; 0
+  34:	e2 ee       	ldi	r30, 0xE2	; 226
+  36:	f0 e0       	ldi	r31, 0x00	; 0
+  38:	02 c0       	rjmp	.+4      	; 0x3e <__SP_L__+0x1>
+  3a:	05 90       	lpm	r0, Z+
+  3c:	0d 92       	st	X+, r0
+  3e:	ae 36       	cpi	r26, 0x6E	; 110
+  40:	b1 07       	cpc	r27, r17
+  42:	d9 f7       	brne	.-10     	; 0x3a <__do_copy_data+0xc>
+  44:	02 d0       	rcall	.+4      	; 0x4a <main>
+  46:	4b c0       	rjmp	.+150    	; 0xde <_exit>
+
+00000048 <__bad_interrupt>:
+  48:	db cf       	rjmp	.-74     	; 0x0 <__vectors>
+
+0000004a <main>:
+#define F_CPU 800000UL
+
+
+//Основаня программа 
+int main(void)
+{
+  4a:	cf 93       	push	r28
+  4c:	df 93       	push	r29
+  4e:	cd b7       	in	r28, 0x3d	; 61
+  50:	dd 27       	eor	r29, r29
+  52:	c7 50       	subi	r28, 0x07	; 7
+  54:	cd bf       	out	0x3d, r28	; 61
+	PORTB=0x00;
+  56:	18 ba       	out	0x18, r1	; 24
+	DDRB=0xFF;
+  58:	8f ef       	ldi	r24, 0xFF	; 255
+  5a:	87 bb       	out	0x17, r24	; 23
+	PORTD=0xFF;
+  5c:	82 bb       	out	0x12, r24	; 18
+	DDRD=0x00;
+  5e:	11 ba       	out	0x11, r1	; 17
+  60:	9e 01       	movw	r18, r28
+  62:	27 5f       	subi	r18, 0xF7	; 247
+  64:	3f 4f       	sbci	r19, 0xFF	; 255
+		//выводит элементы массива в котором лежат двоичный код 
+		//зажигания каждого сегмента по отдельности, если отжата то 
+		//выводим в обратном направлении 
+		
+		//Если кнопка нажата
+		if ((PIND&0x01)==0)
+  66:	80 99       	sbic	0x10, 0	; 16
+  68:	1d c0       	rjmp	.+58     	; 0xa4 <main+0x5a>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  6a:	87 ea       	ldi	r24, 0xA7	; 167
+  6c:	91 e6       	ldi	r25, 0x61	; 97
+  6e:	01 97       	sbiw	r24, 0x01	; 1
+  70:	f1 f7       	brne	.-4      	; 0x6e <main+0x24>
+  72:	00 c0       	rjmp	.+0      	; 0x74 <main+0x2a>
+  74:	00 00       	nop
+			{
+				_delay_ms(100);
+				char runCode [] = {0b00000001,0b00000010,0b00000100,0b00001000,0b00010000,0b00100000,0b00000001};
+  76:	87 e0       	ldi	r24, 0x07	; 7
+  78:	e0 e6       	ldi	r30, 0x60	; 96
+  7a:	f0 e0       	ldi	r31, 0x00	; 0
+  7c:	de 01       	movw	r26, r28
+  7e:	11 96       	adiw	r26, 0x01	; 1
+  80:	01 90       	ld	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	8a 95       	dec	r24
+  86:	e1 f7       	brne	.-8      	; 0x80 <main+0x36>
+  88:	fe 01       	movw	r30, r28
+  8a:	31 96       	adiw	r30, 0x01	; 1
+				for (char i=0;i<=7;i++)
+				{
+					PORTB=runCode[i];
+  8c:	81 91       	ld	r24, Z+
+  8e:	88 bb       	out	0x18, r24	; 24
+  90:	83 ed       	ldi	r24, 0xD3	; 211
+  92:	90 e3       	ldi	r25, 0x30	; 48
+  94:	01 97       	sbiw	r24, 0x01	; 1
+  96:	f1 f7       	brne	.-4      	; 0x94 <main+0x4a>
+  98:	00 c0       	rjmp	.+0      	; 0x9a <main+0x50>
+  9a:	00 00       	nop
+		//Если кнопка нажата
+		if ((PIND&0x01)==0)
+			{
+				_delay_ms(100);
+				char runCode [] = {0b00000001,0b00000010,0b00000100,0b00001000,0b00010000,0b00100000,0b00000001};
+				for (char i=0;i<=7;i++)
+  9c:	2e 17       	cp	r18, r30
+  9e:	3f 07       	cpc	r19, r31
+  a0:	a9 f7       	brne	.-22     	; 0x8c <main+0x42>
+  a2:	e1 cf       	rjmp	.-62     	; 0x66 <main+0x1c>
+  a4:	87 ea       	ldi	r24, 0xA7	; 167
+  a6:	91 e6       	ldi	r25, 0x61	; 97
+  a8:	01 97       	sbiw	r24, 0x01	; 1
+  aa:	f1 f7       	brne	.-4      	; 0xa8 <main+0x5e>
+  ac:	00 c0       	rjmp	.+0      	; 0xae <main+0x64>
+  ae:	00 00       	nop
+				}
+		}//Если кнопка отжата
+		else
+		{
+			_delay_ms(100);
+			char runCode [] = {0b00000001,0b00100000,0b00010000,0b00001000,0b00000100,0b00000010,0b00000001};
+  b0:	87 e0       	ldi	r24, 0x07	; 7
+  b2:	e7 e6       	ldi	r30, 0x67	; 103
+  b4:	f0 e0       	ldi	r31, 0x00	; 0
+  b6:	de 01       	movw	r26, r28
+  b8:	11 96       	adiw	r26, 0x01	; 1
+  ba:	01 90       	ld	r0, Z+
+  bc:	0d 92       	st	X+, r0
+  be:	8a 95       	dec	r24
+  c0:	e1 f7       	brne	.-8      	; 0xba <main+0x70>
+  c2:	fe 01       	movw	r30, r28
+  c4:	31 96       	adiw	r30, 0x01	; 1
+			for (char i=0;i<=7;i++)
+			{
+				PORTB=runCode[i];
+  c6:	81 91       	ld	r24, Z+
+  c8:	88 bb       	out	0x18, r24	; 24
+  ca:	83 ed       	ldi	r24, 0xD3	; 211
+  cc:	90 e3       	ldi	r25, 0x30	; 48
+  ce:	01 97       	sbiw	r24, 0x01	; 1
+  d0:	f1 f7       	brne	.-4      	; 0xce <main+0x84>
+  d2:	00 c0       	rjmp	.+0      	; 0xd4 <main+0x8a>
+  d4:	00 00       	nop
+		}//Если кнопка отжата
+		else
+		{
+			_delay_ms(100);
+			char runCode [] = {0b00000001,0b00100000,0b00010000,0b00001000,0b00000100,0b00000010,0b00000001};
+			for (char i=0;i<=7;i++)
+  d6:	e2 17       	cp	r30, r18
+  d8:	f3 07       	cpc	r31, r19
+  da:	a9 f7       	brne	.-22     	; 0xc6 <main+0x7c>
+  dc:	c4 cf       	rjmp	.-120    	; 0x66 <main+0x1c>
+
+000000de <_exit>:
+  de:	f8 94       	cli
+
+000000e0 <__stop_program>:
+  e0:	ff cf       	rjmp	.-2      	; 0xe0 <__stop_program>
